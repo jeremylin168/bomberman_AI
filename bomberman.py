@@ -19,18 +19,15 @@ def alarmHandler(signum, frame):
 
 def input_char():
 	return getch()
-	"""
-    signal.signal(signal.SIGALRM, alarmHandler)
-    signal.alarm(timeout)
-    try:
-        text = getch()
-        signal.alarm(0)
-        return text
-    except AlarmException:
-        print("\n Prompt timeout. Continuing...")
-    signal.signal(signal.SIGALRM, signal.SIG_IGN)
-    return ''
-	"""
+
+width = 9
+height = 9
+enemyNum = 3
+bricknum = 10
+score = 0
+lives = 3
+explosion_power=2
+
 class datapack():
 	def __init__(self,g,posArray=[],enemyPos=[],enemyNum=2,bomPos=[],playerPos=[],brickPos=[],bricknum=10,height=11,width=11,score=0,lives=3):
 		self.posArray = [x[:] for x in posArray]
@@ -186,48 +183,24 @@ class datapack():
 
 		
 
-width = 9
-height = 9
-enemyNum = 3
-bricknum = 10
-score = 0
-lives = 3
-posArray=[[0 for x in range(width+1)] for y in range(height+1)]
 
-
-for i in range(height*2+1): #40
-	inlist = [0 for x in range(width*4+1)] #80
-	gameArray.append(inlist)
-"""for i in range(height+1): 
-	inlist = [0 for x in range(width+1)] 
-	posArray.append(inlist)"""
 
 bo = Board(height,width)
-bo.gameBoard()
 br= Brick(height,width)
 pl = Player(height,width,score,lives)
 en = Enemy(height, width,enemyNum,pl)
 bom = Bomb(height,width,pl,en)
-posbo = posBomb(height, width,2)
+posbo = posBomb(height, width,explosion_power)
 g=Gameplay(height,width,bo,br,pl,en,bom,posbo)
 
-pl.playerInit()
-en.enemyInit()
-br.brickInit(bricknum)
-posArray=[[0 for x in range(width+1)] for y in range(height+1)]
+
 uu = datapack(g)
 uu.gameinit(height, width,lives,bricknum,enemyNum)
-#datapack(posArray, enemyPos, enemyNum, bomPos, playerPos, brickPos, bricknum, height, width, score, lives, g)
+
 level = 1
 
 while(1):
 	os.system("cls")
-	"""enemyNum = en.enNum()
-	if(enemyNum == 0 and level <= 3):
-		level += 1
-		en.updateNum(5*level)
-		en.enemyInit()
-	print("Level      :",level)"""
 	if(uu.lives<=0):
 		print("Game Over")
 		print("Score:",uu.score)
@@ -241,18 +214,10 @@ while(1):
 			sys.exit(1)
 		uu.gameinit(uu.height+2, uu.width+2,lives,bricknum+(level-1)*5,enemyNum+(level-1)*2,uu.score)
 	print("Level      :",level)
-			#prints the game-board
+
 	
-	
-	#g.nextstep(posArray)
-	
-	
-	"""print(uu.getLegalActions(0))
-	print(uu.score)
-	for raw in uu.posArray:
-		print(raw)"""
+
 	g.drawRawboard(uu)
-	#g.printboard(1)
 	inp = input_char()
 	if(inp == 'q'):
 		sys.exit(0)
@@ -262,22 +227,3 @@ while(1):
 	elif inp in li:
 		uu.getnextstep(0, inp,1)
 
-	#posArray=[[0 for x in range(width+1)] for y in range(height+1)]
-	#g.nextstep(posArray)
-	"""inp = input_char()	#takes a single character input from keyboard
-	if(inp == 'q'):
-		sys.exit(0)		#Quits
-	elif(inp == 's'):
-		pl.moveDown()	#moves the player down on pressing 's'
-	elif(inp == 'w'):
-		pl.moveUp()		#moves the player up on pressing 'w'
-	elif(inp == 'a'):
-		pl.moveLeft()	#moves the player left on pressing 'a'
-	elif(inp == 'd'):
-		pl.moveRight()	#moves the player right on pressing 'd'
-	elif(inp == 'b'):	#spawn a bomb on pressing 'b'
-		if(bomPos[2] <= -1):
-			bomPos[0] = playerPos[0]
-			bomPos[1] = playerPos[1]
-			bomPos[2] = 3
-			bom.drawBomb()"""

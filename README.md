@@ -3,6 +3,7 @@ Original code: Syed Mohd Ali Rizwi https://github.com/alirizwi/Bomberman-Game
 
 
 Bomberman_AI
+
 Using AI to run bomberman
 
 Added state.
@@ -42,7 +43,7 @@ Run the game by executing any of the following commands:
 ##### Functionality:
 
 * The player is controlled by the user and the enemies move randomly on the board but cannot walk through walls or bricks.
-* Bomberman can drop a bomb which destroys bricks and enemies around it after 3 seconds .On killing an enemy, user scores 100 points and on breaking bricks user scores 20 points.
+* Bomberman can drop a bomb which destroys bricks and enemies around it after 3 steps .On killing an enemy, user scores 100 points and on breaking bricks user scores 20 points.
 * There are 3 levels of the game. On killing all the enemies, level is incremented increasing the difficulty of the game.
 * User win the game on passing all the levels.
 
@@ -56,6 +57,14 @@ Bonus Part:
   1111         0000 
 * Different objects have different coloured symbols i.e.'E'(enemies) are of RED colour ,'/'(bricks) are of GREEN colour, 'X'(walls) are of BLUE colour.
 * Extra levels are implemented with different difficulty level.
+
+##### Configurations
+* Map height
+* Map width
+* Enemy number
+* Brick number
+* Lives
+* explosion_power
 
 
 
