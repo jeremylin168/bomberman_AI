@@ -1,8 +1,11 @@
 # BOMBERMAN
-#### By: Syed Mohd Ali Rizwi
+Original code: Syed Mohd Ali Rizwi https://github.com/alirizwi/Bomberman-Game
 
 
-Bomberman - A fun game written in python.
+Bomberman_AI
+Using AI to run bomberman
+
+Added state.
 
 
 ##### Prerequisites:
