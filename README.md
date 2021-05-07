@@ -25,7 +25,7 @@ Run the game by executing any of the following commands:
 * Move down 	s 
 * Drop bomb 	b
 * Quit		q 
-
+* Stay		x
 
 ##### Representation:
 
