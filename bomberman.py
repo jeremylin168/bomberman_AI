@@ -11,6 +11,7 @@ from bomb import *
 from brick import *
 from alarmexception import *
 from gamestate import Gamestate
+from Agent import agent
 
 getch = GetchUnix(1)
 
@@ -26,25 +27,28 @@ enemyNum = 3
 bricknum = 10
 score = 0
 lives = 3
-explosion_power=2
-
+explosion_power=1
+timer = 1
 
 bo = Board(height,width)
 br= Brick(height,width)
 pl = Player(height,width,score,lives)
 en = Enemy(height, width,enemyNum,pl)
 bom = Bomb(height,width,pl,en)
-posbo = posBomb(height, width,explosion_power)
+posbo = posBomb(height, width,explosion_power,timer)
 g=Gameplay(height,width,bo,br,pl,en,bom,posbo)
+AI_agent = agent(4)
 
 
 uu = Gamestate(g)
 uu.gameinit(height, width,lives,bricknum,enemyNum)
 
 level = 1
-
+loop = 0
 while(1):
+	loop +=1
 	os.system("cls")
+	print(loop)
 	if(uu.lives<=0):
 		print("Game Over")
 		print("Score:",uu.score)
@@ -62,12 +66,18 @@ while(1):
 	
 
 	g.drawRawboard(uu)
-	inp = input_char()
-	if(inp == 'q'):
+	#inp = input_char()
+	#inp = AI_agent.getAction(uu)
+	#inp = AI_agent.alpabetaAgent(uu)
+	inp = AI_agent.expectMax(uu)
+	uu.getnextstep(0, inp,1)
+	"""if(inp == 'q'):
 		sys.exit(0)
 	li=uu.getLegalActions(0)
-	if inp =='b':
-		uu.getnextstep(0, 'b',1)
-	elif inp in li:
+	if inp in li:
 		uu.getnextstep(0, inp,1)
+		"""
+
+	time.sleep(1)
+
 

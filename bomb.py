@@ -98,10 +98,11 @@ class Bomb():
 			self.afterExplosion(x,y+1)
 		return
 class posBomb():
-	def __init__(self,height,width,power=1):
+	def __init__(self,height,width,power=1,timer=3):
 		self.width = width
 		self.height = height
 		self.power = power
+		self.timer = timer
 	def drawBomb(self,state):
 		x = state.bomPos[0]
 		y = state.bomPos[1]
@@ -146,13 +147,13 @@ class posBomb():
 		return True
 	def afterExplosion(self,x,y,state):
 		if(x == state.playerPos[0] and y == state.playerPos[1] and state.alive):
-			state.score -=200
+			state.score -=100
 			state.lives-=1
 			state.playerPos = [1,1]
 			state.alive = False
 		if([x,y] in state.enemyPos):
 			state.enemyPos.remove([x,y])
-			state.score+=100
+			state.score+=200
 			state.enemyNum-=1
 		if([x,y] in state.brickPos):
 			state.brickPos.remove([x,y])

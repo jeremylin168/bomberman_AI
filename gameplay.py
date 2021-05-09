@@ -59,7 +59,6 @@ class Gameplay():
 			#print(gameArray)
 			print("Press 'q' to quit the game")	
 	def drawRawboard(self,state):
-		#gg = bo.gameBoard(1,1)
 		printArray = [[0 for x in range(state.width*4+4)] for y in range(state.height*2+4)]
 		for i in range(1,state.height*2+1):#39 23 
 			for j in range(1,state.width*4+1):
@@ -75,15 +74,8 @@ class Gameplay():
 				else:
 					print(printArray[i][j],end="")
 			print("\n",end="")
-		#print(gameArray)
 		print("Press 'q' to quit the game")
 		print("Score      :",state.score,"\t\t\t\t\t\t","Lives left :",state.lives)
 
 		return
-	"""def nextstep(self,posArray):
-		self.bo.drawposboard(posArray)
-		self.pl.drawposPlayer(posArray)
-		self.br.drawposBricks(posArray)
-		self.en.drawposEnemy(posArray)
-		self.posbo.drawBomb(posArray)"""
 

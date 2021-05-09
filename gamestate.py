@@ -78,7 +78,7 @@ class Gamestate():
 					if(state.bomPos[2] <= -1):
 						state.bomPos[0] = state.playerPos[0]
 						state.bomPos[1] = state.playerPos[1]
-						state.bomPos[2] = 3
+						state.bomPos[2] = self.g.posbo.timer
 				state.updatestate()
 			elif(agents>0):
 				if(actions == 's'):
@@ -89,6 +89,7 @@ class Gamestate():
 					state.enemyPos[agents-1][1]-=1	
 				elif(actions == 'd'):
 					state.enemyPos[agents-1][1]+=1
+				state.updateEnemystate()
 			return state
 		else:
 			if(agents==0):
@@ -104,7 +105,7 @@ class Gamestate():
 					if(self.bomPos[2] <= -1):
 						self.bomPos[0] = self.playerPos[0]
 						self.bomPos[1] = self.playerPos[1]
-						self.bomPos[2] = 3
+						self.bomPos[2] = self.g.posbo.timer
 				self.enemyRamdomMove()
 				self.updatestate()
 			elif(agents>0):
@@ -126,9 +127,19 @@ class Gamestate():
 		self.g.posbo.drawBomb(self)
 		if not self.alive:
 			self.g.pl.drawposPlayer(self)
+	def updateEnemystate(self):
+		self.alive =True
+		self.g.bo.drawposboard(self)
+		self.g.pl.drawposPlayer(self)
+		self.g.br.drawposBricks(self)
+		self.g.en.drawposEnemy(self)
+		if not self.alive:
+			self.g.pl.drawposPlayer(self)
 	def getLegalActions(self,agents):
 		li = ['x'] # x =stop
 		if agents==0:
+			if (self.bomPos[2] <= -1):
+				li.append('b')
 			if(self.posArray[self.playerPos[0]+2][self.playerPos[1]+1]!="X" and self.posArray[self.playerPos[0]+2][self.playerPos[1]+1]!="/"):
 				li.append('s')
 			if(self.posArray[self.playerPos[0]][self.playerPos[1]+1]!="X" and self.posArray[self.playerPos[0]][self.playerPos[1]+1]!="/"):
@@ -157,4 +168,21 @@ class Gamestate():
 			li = self.getLegalActions(i+1)
 			action = random.choice(li)
 			self.getnextstep(i+1, action,1)
+	def getenemyNum(self):
+		return self.enemyNum
+	def isLose(self):
+		if self.lives <=0:
+			return True
+		else:
+			return False
+	def isWin(self):
+		if self.enemyNum <=0:
+			return True
+		else:
+			return False
+	def getscore(self):
+		if self.isLose():
+			return None
+		else:
+			return self.score
 			
