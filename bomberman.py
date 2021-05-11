@@ -28,12 +28,10 @@ bricknum = 10
 score = 0
 lives = 3
 explosion_power=1
-<<<<<<< Updated upstream
+
 timer = 1
 ai = True
-=======
-timer = 2
->>>>>>> Stashed changes
+
 
 bo = Board(height,width)
 br= Brick(height,width)
@@ -71,13 +69,9 @@ while(1):
 	
 
 	g.drawRawboard(uu)
-	#inp = input_char()
-	#inp = AI_agent.getAction(uu)
-	#inp = AI_agent.alpabetaAgent(uu)
 	if ai:
 		inp = AI_agent.expectMax(uu)
 		uu.getnextstep(0, inp,1)
-<<<<<<< Updated upstream
 		time.sleep(1)
 	else:
 		inp = input_char()
@@ -90,12 +84,6 @@ while(1):
 
 
 	
-=======
-		"""
-	q= input("")
-	if q=='q':
-		sys.exit(0)
-	#time.sleep(1)
->>>>>>> Stashed changes
+
 
 
