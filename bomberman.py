@@ -28,8 +28,12 @@ bricknum = 10
 score = 0
 lives = 3
 explosion_power=1
+<<<<<<< Updated upstream
 timer = 1
 ai = True
+=======
+timer = 2
+>>>>>>> Stashed changes
 
 bo = Board(height,width)
 br= Brick(height,width)
@@ -48,7 +52,7 @@ level = 1
 loop = 0
 while(1):
 	loop +=1
-	os.system("cls")
+	os.system("")
 	print(loop)
 	if(uu.lives<=0):
 		print("Game Over")
@@ -73,6 +77,7 @@ while(1):
 	if ai:
 		inp = AI_agent.expectMax(uu)
 		uu.getnextstep(0, inp,1)
+<<<<<<< Updated upstream
 		time.sleep(1)
 	else:
 		inp = input_char()
@@ -85,5 +90,12 @@ while(1):
 
 
 	
+=======
+		"""
+	q= input("")
+	if q=='q':
+		sys.exit(0)
+	#time.sleep(1)
+>>>>>>> Stashed changes
 
 
