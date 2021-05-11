@@ -50,7 +50,7 @@ level = 1
 loop = 0
 while(1):
 	loop +=1
-	os.system("")
+	os.system("cls")
 	print(loop)
 	if(uu.lives<=0):
 		print("Game Over")
