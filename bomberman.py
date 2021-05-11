@@ -29,6 +29,7 @@ score = 0
 lives = 3
 explosion_power=1
 timer = 1
+ai = True
 
 bo = Board(height,width)
 br= Brick(height,width)
@@ -69,15 +70,20 @@ while(1):
 	#inp = input_char()
 	#inp = AI_agent.getAction(uu)
 	#inp = AI_agent.alpabetaAgent(uu)
-	inp = AI_agent.expectMax(uu)
-	uu.getnextstep(0, inp,1)
-	"""if(inp == 'q'):
-		sys.exit(0)
-	li=uu.getLegalActions(0)
-	if inp in li:
+	if ai:
+		inp = AI_agent.expectMax(uu)
 		uu.getnextstep(0, inp,1)
-		"""
+		time.sleep(1)
+	else:
+		inp = input_char()
+		if(inp == 'q'):
+			sys.exit(0)
+		li=uu.getLegalActions(0)
+		if inp in li:
+			uu.getnextstep(0, inp,1)
+	
 
-	time.sleep(1)
+
+	
 
 
