@@ -27,10 +27,10 @@ enemyNum = 3
 bricknum = 10
 score = 0
 lives = 3
-explosion_power=1
+explosion_power=2
 
-timer = 1
-ai = True
+timer = 3
+ai = False
 
 
 bo = Board(height,width)
@@ -40,7 +40,7 @@ en = Enemy(height, width,enemyNum,pl)
 bom = Bomb(height,width,pl,en)
 posbo = posBomb(height, width,explosion_power,timer)
 g=Gameplay(height,width,bo,br,pl,en,bom,posbo)
-AI_agent = agent(4)
+AI_agent = agent(5)
 
 
 uu = Gamestate(g)
@@ -72,7 +72,7 @@ while(1):
 	if ai:
 		inp = AI_agent.expectMax(uu)
 		uu.getnextstep(0, inp,1)
-		time.sleep(1)
+		#time.sleep(1)
 	else:
 		inp = input_char()
 		if(inp == 'q'):
