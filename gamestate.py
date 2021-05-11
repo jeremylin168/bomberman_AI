@@ -79,7 +79,6 @@ class Gamestate():
 						state.bomPos[0] = state.playerPos[0]
 						state.bomPos[1] = state.playerPos[1]
 						state.bomPos[2] = self.g.posbo.timer
-				state.updatestate()
 			elif(agents>0):
 				if(actions == 's'):
 					state.enemyPos[agents-1][0]+=1	
@@ -89,7 +88,6 @@ class Gamestate():
 					state.enemyPos[agents-1][1]-=1	
 				elif(actions == 'd'):
 					state.enemyPos[agents-1][1]+=1
-				state.updateEnemystate()
 			return state
 		else:
 			if(agents==0):

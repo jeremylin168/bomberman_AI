@@ -9,6 +9,13 @@ class agent():
 
     def getAction(self, gameState):
         def tree(depth,agent,state):
+            if (agent>=state.getenemyNum()):
+                state.updatestate()
+                nagent=0
+                ndepth=depth+1
+            else:
+                nagent=agent+1
+                ndepth = depth
             if(state.isLose()):
                 return self.evaluationFunction(state)#+depth
             if(state.isWin()):
@@ -16,14 +23,10 @@ class agent():
             if(depth>=self.depth):
                 return self.evaluationFunction(state)
             legalmove=state.getLegalActions(agent)
-            if (agent>=state.getenemyNum()):
-                nagent=0
-                depth+=1
-            else:
-                nagent=agent+1
+
             scores=[]
             for mv in legalmove:
-                mvscore=tree(depth,nagent,state.getnextstep(agent,mv))
+                mvscore=tree(ndepth,nagent,state.getnextstep(agent,mv))
                 if mvscore!=None:
                     scores.append(mvscore)
             if len(scores)<=0:
@@ -44,6 +47,13 @@ class agent():
         return nextmv
     def alpabetaAgent(self, gameState):
         def tree(depth,agent,state,alpha,beta):
+            if (agent>=state.getenemyNum()):
+                state.updatestate()
+                nagent=0
+                ndepth=depth+1
+            else:
+                nagent=agent+1
+                ndepth = depth
             if(state.isLose()):
                 return self.evaluationFunction(state)
             if(state.isWin()):
@@ -51,11 +61,7 @@ class agent():
             if(depth>=self.depth):
                 return self.evaluationFunction(state)
             legalmove=state.getLegalActions(agent)
-            if (agent>=state.getenemyNum()):
-                nagent=0
-                depth+=1
-            else:
-                nagent=agent+1
+
             if agent==0:
                 v=-999999
             else:
@@ -64,7 +70,7 @@ class agent():
             bestmv=[]
             bs=[]
             for mv in legalmove:
-                mvscore= tree(depth,nagent,state.getnextstep(agent,mv),alpha,beta)
+                mvscore= tree(ndepth,nagent,state.getnextstep(agent,mv),alpha,beta)
                 if mvscore!=None:
                     if(agent==0):
                         if(depth==0):
@@ -99,22 +105,25 @@ class agent():
         return nextmv
     def expectMax(self,gameState):
         def tree(depth,agent,state):
-            """if(state.isLose()):
+            if (agent>=state.getenemyNum()):
+                state.updatestate()
+                if(agent>state.enemyNum):
+                    return self.evaluationFunction(state)
+                nagent=0
+                ndepth=depth+1
+            else:
+                nagent=agent+1
+                ndepth = depth
+            if(state.isLose()):
                 return self.evaluationFunction(state)
             if(state.isWin()):
                 return self.evaluationFunction(state)
-            """
             if(depth>=self.depth):
                 return self.evaluationFunction(state)
             legalmove=state.getLegalActions(agent)
-            if (agent>=state.getenemyNum()):
-                nagent=0
-                depth+=1
-            else:
-                nagent=agent+1
             scores=[]
             for mv in legalmove:
-                mvscore=tree(depth,nagent,state.getnextstep(agent,mv))
+                mvscore=tree(ndepth,nagent,state.getnextstep(agent,mv))
                 if mvscore!=None:
                     scores.append(mvscore)
             if len(scores)<=0:
@@ -122,12 +131,12 @@ class agent():
             if(depth==0 and agent==0):
                 print(legalmove)
                 print(scores)
-                bestScore=max(scores)
+                bestScore=self.scorechoose(scores, state)
                 bestIndices = [index for index in range(len(scores)) if scores[index] == bestScore]
                 chosenIndex = random.choice(bestIndices)
                 return legalmove[chosenIndex]
             elif(agent==0):
-                return max(scores)
+                return self.scorechoose(scores, state)
             else:
                 bestScore=0
                 for i in scores:
@@ -135,3 +144,14 @@ class agent():
                 return bestScore/len(scores)
         nextmv = tree(0,0,gameState)
         return nextmv
+    def scorechoose(self,score,state):
+        t = True
+        rescore = min(score)
+        for x in score:
+            if x!=state.score and x!=state.score-200:
+                t=False
+                rescore = max(x,rescore)
+        if t:
+            return max(score)
+        else:
+            return rescore

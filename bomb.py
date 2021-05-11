@@ -147,7 +147,7 @@ class posBomb():
 		return True
 	def afterExplosion(self,x,y,state):
 		if(x == state.playerPos[0] and y == state.playerPos[1] and state.alive):
-			state.score -=100
+			state.score -=200
 			state.lives-=1
 			state.playerPos = [1,1]
 			state.alive = False
