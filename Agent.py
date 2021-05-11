@@ -11,6 +11,8 @@ class agent():
         def tree(depth,agent,state):
             if (agent>=state.getenemyNum()):
                 state.updatestate()
+                if(agent>state.enemyNum):
+                    return self.evaluationFunction(state)
                 nagent=0
                 ndepth=depth+1
             else:
@@ -34,12 +36,12 @@ class agent():
             if(depth==0 and agent==0):
                 print(legalmove)
                 print(scores)
-                bestScore=max(scores)
+                bestScore=self.scorechoose(scores, state)
                 bestIndices = [index for index in range(len(scores)) if scores[index] == bestScore]
                 chosenIndex = random.choice(bestIndices)
                 return legalmove[chosenIndex]
             elif(agent==0):
-                return max(scores)#-1
+                return self.scorechoose(scores, state)
             else:
                 return min(scores)
         
@@ -119,6 +121,7 @@ class agent():
             if(state.isWin()):
                 return self.evaluationFunction(state)
             if(depth>=self.depth):
+                print(self.evaluationFunction(state))
                 return self.evaluationFunction(state)
             legalmove=state.getLegalActions(agent)
             scores=[]

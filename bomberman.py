@@ -23,13 +23,13 @@ def input_char():
 
 width = 9
 height = 9
-enemyNum = 3
+enemyNum = 1
 bricknum = 10
 score = 0
 lives = 3
-explosion_power=2
+explosion_power=1
 
-timer = 3
+timer = 2
 ai = False
 
 
@@ -40,7 +40,7 @@ en = Enemy(height, width,enemyNum,pl)
 bom = Bomb(height,width,pl,en)
 posbo = posBomb(height, width,explosion_power,timer)
 g=Gameplay(height,width,bo,br,pl,en,bom,posbo)
-AI_agent = agent(5)
+AI_agent = agent(3)
 
 
 uu = Gamestate(g)
@@ -71,8 +71,9 @@ while(1):
 	g.drawRawboard(uu)
 	if ai:
 		inp = AI_agent.expectMax(uu)
+		#inp = AI_agent.getAction(uu)
 		uu.getnextstep(0, inp,1)
-		#time.sleep(1)
+		time.sleep(1)
 	else:
 		inp = input_char()
 		if(inp == 'q'):
