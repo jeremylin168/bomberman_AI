@@ -30,10 +30,12 @@ score = 0
 lives = 3
 explosion_power=2
 mxlevel =1
-expect_depth = 3
+expect_depth = 4
 Smartenemy=0
-
-timer = 2
+#better expect_depth=3 explosion_power=1 timer = 2 
+#or expect_depth=3 explosion_power=2 timer = 2
+#or expect_depth=4 explosion_power=2 timer = 3
+timer = 3
 if	len(sys.argv)==1:
 	ai= False
 elif sys.argv[1] == "1":
@@ -81,9 +83,9 @@ while(1):
 	
 	if ai:
 		print("ai")
-		inp = AI_agent.expectMax(uu)
+		#inp = AI_agent.expectMax(uu)
 		#inp = AI_agent.getAction(uu)
-		#inp = AI_agent.alpabetaAgent(uu)
+		inp = AI_agent.alpabetaAgent(uu)
 		#input("")
 		uu.getnextstep(0, inp,1)
 		time.sleep(1)

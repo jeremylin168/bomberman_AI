@@ -208,7 +208,7 @@ class Gamestate():
 				if(ndis!=dis):
 					dis = ndis
 					action=ac
-			action = random.choice(['x',action])
+			#action = random.choice(['x',action])
 			self.getnextstep(i+1, action,1)
 	def getenemyNum(self):
 		return self.enemyNum
