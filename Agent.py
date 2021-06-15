@@ -3,7 +3,7 @@ import random
 
 class agent():
     def __init__(self,depth=2):
-        self.depth = 2
+        self.depth = depth
     def evaluationFunction(self,currentGameState):
         return currentGameState.getscore()
 
@@ -96,8 +96,8 @@ class agent():
             if bestScore==None:
                 return None
             if(depth==0 and agent==0):
-                #print(mv)
-                #print(bs)
+                print(bestmv)
+                print(bs)
                 return random.choice(bestmv)
             elif(agent==0):
                 return bestScore
@@ -120,7 +120,6 @@ class agent():
             if(state.isWin()):
                 return self.evaluationFunction(state)
             if(depth>=self.depth):
-                #print(self.evaluationFunction(state))
                 return self.evaluationFunction(state)
             legalmove=state.getLegalActions(agent)
             scores=[]
@@ -131,8 +130,8 @@ class agent():
             if len(scores)<=0:
                 return None
             if(depth==0 and agent==0):
-                #print(legalmove)
-                #print(scores)
+                print(legalmove)
+                print(scores)
                 bestScore=self.scorechoose(scores, state)
                 bestIndices = [index for index in range(len(scores)) if scores[index] == bestScore]
                 chosenIndex = random.choice(bestIndices)
@@ -148,7 +147,7 @@ class agent():
         return nextmv
     def scorechoose(self,score,state):
         return max(score)
-        """
+        
         t = True
         rescore = min(score)
         for x in score:
@@ -158,4 +157,4 @@ class agent():
         if t:
             return max(score)
         else:
-            return rescore"""
+            return rescore

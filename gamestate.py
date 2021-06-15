@@ -51,7 +51,7 @@ class Gamestate():
 		while tmpbrnum>0:
 			x = randint(1,self.height-2)
 			y = randint(1,self.width-2)	
-			if self.posArray[x+1][y+1]!="X" and not [x,y] in self.brickPos:
+			if self.posArray[x+1][y+1]!="X" and not [x,y] in self.brickPos and not [x,y] in [[1,2],[2,1]]:
 				self.brickPos.append([x,y])	
 				tmpbrnum-=1
 			tp-=1
@@ -87,7 +87,7 @@ class Gamestate():
 						state.bomPos[1] = state.playerPos[1]
 						state.bomPos[2] = self.g.posbo.timer
 			elif(agents>0): # move enemy
-				#print("move")
+				#print("move"+actions)
 				#print(agents)
 				#print(self.enemyNum)
 				if(actions == 's'):
@@ -99,6 +99,7 @@ class Gamestate():
 				elif(actions == 'd'):
 					state.enemyPos[agents-1][1]+=1
 				if(agents==self.enemyNum):
+
 					state.updatestate()
 			return state
 		else:

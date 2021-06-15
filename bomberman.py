@@ -30,10 +30,10 @@ score = 0
 lives = 3
 explosion_power=2
 mxlevel =1
-expect_depth = 4
-Smartenemy=1
+expect_depth = 3
+Smartenemy=0
 
-timer = 3
+timer = 2
 if	len(sys.argv)==1:
 	ai= False
 elif sys.argv[1] == "1":
@@ -78,10 +78,13 @@ while(1):
 	
 
 	g.drawRawboard(uu)
+	
 	if ai:
 		print("ai")
-		#inp = AI_agent.expectMax(uu)
-		inp = AI_agent.getAction(uu)
+		inp = AI_agent.expectMax(uu)
+		#inp = AI_agent.getAction(uu)
+		#inp = AI_agent.alpabetaAgent(uu)
+		#input("")
 		uu.getnextstep(0, inp,1)
 		time.sleep(1)
 	else:
