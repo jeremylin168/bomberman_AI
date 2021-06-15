@@ -108,7 +108,6 @@ class agent():
     def expectMax(self,gameState):
         def tree(depth,agent,state):
             if (agent>=state.getenemyNum()):
-                state.updatestate()
                 if(agent>state.enemyNum):
                     return self.evaluationFunction(state)
                 nagent=0

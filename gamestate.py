@@ -65,7 +65,7 @@ class Gamestate():
 	def getnextstep(self,agents,actions,selfmove=0):
 		if selfmove==0:
 			state = Gamestate( self.g ,self.posArray, self.enemyPos, self.enemyNum, self.bomPos, self.playerPos, self.brickPos, self.bricknum, self.height, self.width, self.score, self.lives)
-			if(agents==0):
+			if(agents==0): #move player
 				if(actions == 's'):
 					state.playerPos[0]+=1	#moves the player down on pressing 's'
 				elif(actions == 'w'):
@@ -79,7 +79,7 @@ class Gamestate():
 						state.bomPos[0] = state.playerPos[0]
 						state.bomPos[1] = state.playerPos[1]
 						state.bomPos[2] = self.g.posbo.timer
-			elif(agents>0):
+			elif(agents>0): # move enemy
 				if(actions == 's'):
 					state.enemyPos[agents-1][0]+=1	
 				elif(actions == 'w'):
@@ -88,6 +88,8 @@ class Gamestate():
 					state.enemyPos[agents-1][1]-=1	
 				elif(actions == 'd'):
 					state.enemyPos[agents-1][1]+=1
+				if(agents==self.enemyNum):
+					self.updatestate()
 			return state
 		else:
 			if(agents==0):
