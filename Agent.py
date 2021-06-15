@@ -7,7 +7,7 @@ class agent():
     def evaluationFunction(self,currentGameState):
         return currentGameState.getscore()
 
-    def getAction(self, gameState):
+    def getAction(self, gameState): #Min_Max
         def tree(depth,agent,state):
             if (agent>=state.getenemyNum()):
                 if(agent>state.enemyNum):

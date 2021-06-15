@@ -69,8 +69,8 @@ class Gamestate():
 			if tp <=-10:
 				break
 		self.g.en.drawposEnemy(self)
-	def getnextstep(self,agents,actions,selfmove=0):
-		if selfmove==0:
+	def getnextstep(self,agents,actions,selfmove=0): #selfmove =0 => for AI to predict next move
+		if selfmove==0: # This will return new state after agent move. It won't change origial state
 			state = Gamestate( self.g ,self.posArray, self.enemyPos, self.enemyNum, self.bomPos, self.playerPos, self.brickPos, self.bricknum, self.height, self.width, self.score, self.lives, self.MovePattern,self.bombscore,self.enemyscore)
 			if(agents==0): #move player
 				if(actions == 's'):
@@ -87,9 +87,6 @@ class Gamestate():
 						state.bomPos[1] = state.playerPos[1]
 						state.bomPos[2] = self.g.posbo.timer
 			elif(agents>0): # move enemy
-				#print("move"+actions)
-				#print(agents)
-				#print(self.enemyNum)
 				if(actions == 's'):
 					state.enemyPos[agents-1][0]+=1	
 				elif(actions == 'w'):
@@ -99,10 +96,9 @@ class Gamestate():
 				elif(actions == 'd'):
 					state.enemyPos[agents-1][1]+=1
 				if(agents==self.enemyNum):
-
 					state.updatestate()
 			return state
-		else:
+		else: # This will change original state
 			if(agents==0):
 				if(actions == 's'):
 					self.playerPos[0]+=1	#moves the player down on pressing 's'
@@ -117,7 +113,7 @@ class Gamestate():
 						self.bomPos[0] = self.playerPos[0]
 						self.bomPos[1] = self.playerPos[1]
 						self.bomPos[2] = self.g.posbo.timer
-				self.enemyMove(self.MovePattern)
+				self.enemyMove(self.MovePattern) # move pattern = 0: random move ,1: smart move
 				self.updatestate()
 			elif(agents>0):
 				if(actions == 's'):

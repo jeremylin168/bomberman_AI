@@ -21,21 +21,28 @@ def alarmHandler(signum, frame):
 
 def input_char():
 	return getch()
-
+#arena size
 width = 9
 height = 9
+#enemy and brick number, they will be generated randomly
 enemyNum = 1
 bricknum = 10
+#score broad
 score = 0
 lives = 3
-explosion_power=2
 mxlevel =1
+#bomb setting
+explosion_power=2
+timer = 3
+
+#AI setting
 expect_depth = 4
-Smartenemy=0
+Smartenemy=0 #smart enemy will gradually come close to player . smart =1 ,random =0
+
 #better expect_depth=3 explosion_power=1 timer = 2 
 #or expect_depth=3 explosion_power=2 timer = 2
 #or expect_depth=4 explosion_power=2 timer = 3
-timer = 3
+
 if	len(sys.argv)==1:
 	ai= False
 elif sys.argv[1] == "1":
@@ -61,7 +68,7 @@ level = 1
 loop = 0
 while(1):
 	loop +=1
-	os.system("cls")
+	os.system("cls") #if don't want to flush window, => os.system("")
 	print(loop)
 	if(uu.lives<=0):
 		print("Game Over")
@@ -82,11 +89,13 @@ while(1):
 	g.drawRawboard(uu)
 	
 	if ai:
-		print("ai")
+		print("AI")
+		#different AI agent
 		#inp = AI_agent.expectMax(uu)
 		#inp = AI_agent.getAction(uu)
 		inp = AI_agent.alpabetaAgent(uu)
-		#input("")
+
+		#input("") #if needed, this can plause program
 		uu.getnextstep(0, inp,1)
 		time.sleep(1)
 	else:
