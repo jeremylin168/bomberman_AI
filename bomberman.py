@@ -80,8 +80,8 @@ while(1):
 	g.drawRawboard(uu)
 	if ai:
 		print("ai")
+		#inp = AI_agent.expectMax(uu)
 		inp = AI_agent.getAction(uu)
-		#inp = AI_agent.getAction(uu)
 		uu.getnextstep(0, inp,1)
 		time.sleep(1)
 	else:

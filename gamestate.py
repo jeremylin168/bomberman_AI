@@ -12,7 +12,7 @@ from alarmexception import *
 import math
 
 class Gamestate():
-	def __init__(self,g,posArray=[],enemyPos=[],enemyNum=2,bomPos=[],playerPos=[],brickPos=[],bricknum=10,height=11,width=11,score=0,lives=3,MovePattern=0):
+	def __init__(self,g,posArray=[],enemyPos=[],enemyNum=2,bomPos=[],playerPos=[],brickPos=[],bricknum=10,height=11,width=11,score=0,lives=3,MovePattern=0,bombscore=0,enemyscore=0):
 		self.posArray = [x[:] for x in posArray]
 		self.enemyPos =  [x[:] for x in enemyPos]
 		self.enemyNum = enemyNum
@@ -23,13 +23,17 @@ class Gamestate():
 		self.bricknum = bricknum
 		self.height = height
 		self.width = width
-		self.score = score
+		self.score = score #=bombscore + enemyscore
+		self.bombscore = bombscore #the score earn from bomb
+		self.enemyscore = enemyscore #the score related to enemy
 		self.lives = lives
 		self.g = g
 		self.alive = True
 	
-	def gameinit(self,height,width,lives=3,bricknum=10,enemyNum=2,score=0,MovePattern=0):
+	def gameinit(self,height,width,lives=3,bricknum=10,enemyNum=2,score=0,MovePattern=0,bombscore=0,enemyscore=0):
 		self.score=score
+		self.bombscore=bombscore
+		self.enemyscore=enemyscore
 		self.height=height
 		self.width=width
 		self.lives = lives
@@ -67,7 +71,7 @@ class Gamestate():
 		self.g.en.drawposEnemy(self)
 	def getnextstep(self,agents,actions,selfmove=0):
 		if selfmove==0:
-			state = Gamestate( self.g ,self.posArray, self.enemyPos, self.enemyNum, self.bomPos, self.playerPos, self.brickPos, self.bricknum, self.height, self.width, self.score, self.lives, self.MovePattern)
+			state = Gamestate( self.g ,self.posArray, self.enemyPos, self.enemyNum, self.bomPos, self.playerPos, self.brickPos, self.bricknum, self.height, self.width, self.score, self.lives, self.MovePattern,self.bombscore,self.enemyscore)
 			if(agents==0): #move player
 				if(actions == 's'):
 					state.playerPos[0]+=1	#moves the player down on pressing 's'
@@ -133,6 +137,7 @@ class Gamestate():
 		self.g.posbo.drawBomb(self)
 		if not self.alive:
 			self.g.pl.drawposPlayer(self)
+		self.updatescore()
 	def updateEnemystate(self):
 		self.alive =True
 		self.g.bo.drawposboard(self)
@@ -191,14 +196,18 @@ class Gamestate():
 				elif(ac == 'w'):
 					ndis = min(pow(self.enemyPos[i][0]-1-self.playerPos[0],2)+pow(self.enemyPos[i][1]-self.playerPos[1],2),dis)
 				elif(ac == 'a'):
-					ndis = min(pow(self.enemyPos[i][0]+1-self.playerPos[0],2)+pow(self.enemyPos[i][1]-1-self.playerPos[1],2),dis)
+					ndis = min(pow(self.enemyPos[i][0]-self.playerPos[0],2)+pow(self.enemyPos[i][1]-1-self.playerPos[1],2),dis)
 				elif(ac == 'd'):
-					ndis = min(pow(self.enemyPos[i][0]+1-self.playerPos[0],2)+pow(self.enemyPos[i][1]+1-self.playerPos[1],2),dis)
+					ndis = min(pow(self.enemyPos[i][0]-self.playerPos[0],2)+pow(self.enemyPos[i][1]+1-self.playerPos[1],2),dis)
 				else:
-					ndis = min(pow(self.enemyPos[i][0]+1-self.playerPos[0],2)+pow(self.enemyPos[i][1]-self.playerPos[1],2),dis)
+					ndis = min(pow(self.enemyPos[i][0]-self.playerPos[0],2)+pow(self.enemyPos[i][1]-self.playerPos[1],2),dis)
+				#print(ac)
+				#print(ndis)
+				#print(dis)
 				if(ndis!=dis):
 					dis = ndis
 					action=ac
+			action = random.choice(['x',action])
 			self.getnextstep(i+1, action,1)
 	def getenemyNum(self):
 		return self.enemyNum
@@ -213,8 +222,11 @@ class Gamestate():
 		else:
 			return False
 	def getscore(self):
+		self.updatescore()
 		if self.isLose():
 			return None
 		else:
 			return self.score
+	def updatescore(self):
+		self.score = self.bombscore + self.enemyscore
 			

@@ -109,7 +109,7 @@ class Player(Person):
 
 	def updateScore(self, update):
 		#global score
-		self.score += update
+		self.bombscore += update
 		return 
 
 	def updateLife(self):

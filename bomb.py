@@ -147,14 +147,14 @@ class posBomb():
 		return True
 	def afterExplosion(self,x,y,state):
 		if(x == state.playerPos[0] and y == state.playerPos[1] and state.alive):
-			state.score -=200
+			state.bombscore -=200
 			state.lives-=1
 			state.playerPos = [1,1]
 			state.alive = False
 		if([x,y] in state.enemyPos):
 			state.enemyPos.remove([x,y])
-			state.score+=200
+			state.bombscore+=200
 			state.enemyNum-=1
 		if([x,y] in state.brickPos):
 			state.brickPos.remove([x,y])
-			state.score	+=20
+			state.bombscore	+=20

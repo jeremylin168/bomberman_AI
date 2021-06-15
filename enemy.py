@@ -39,7 +39,7 @@ class Enemy(Person):
 			if(state.posArray[x+1][y+1]!="X" and state.posArray[x+1][y+1]!="/"):
 				state.posArray[x+1][y+1]="E"
 		if state.playerPos in state.enemyPos:
-			state.score -=200
+			state.enemyscore -=200
 			state.lives-=1
 			state.playerPos = [1,1]
 			state.alive = False
