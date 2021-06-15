@@ -10,7 +10,6 @@ class agent():
     def getAction(self, gameState):
         def tree(depth,agent,state):
             if (agent>=state.getenemyNum()):
-                state.updatestate()
                 if(agent>state.enemyNum):
                     return self.evaluationFunction(state)
                 nagent=0
@@ -50,7 +49,8 @@ class agent():
     def alpabetaAgent(self, gameState):
         def tree(depth,agent,state,alpha,beta):
             if (agent>=state.getenemyNum()):
-                state.updatestate()
+                if(agent>state.enemyNum):
+                    return self.evaluationFunction(state)
                 nagent=0
                 ndepth=depth+1
             else:
@@ -96,8 +96,8 @@ class agent():
             if bestScore==None:
                 return None
             if(depth==0 and agent==0):
-                print(mv)
-                print(bs)
+                #print(mv)
+                #print(bs)
                 return random.choice(bestmv)
             elif(agent==0):
                 return bestScore
@@ -120,7 +120,7 @@ class agent():
             if(state.isWin()):
                 return self.evaluationFunction(state)
             if(depth>=self.depth):
-                print(self.evaluationFunction(state))
+                #print(self.evaluationFunction(state))
                 return self.evaluationFunction(state)
             legalmove=state.getLegalActions(agent)
             scores=[]
@@ -131,8 +131,8 @@ class agent():
             if len(scores)<=0:
                 return None
             if(depth==0 and agent==0):
-                print(legalmove)
-                print(scores)
+                #print(legalmove)
+                #print(scores)
                 bestScore=self.scorechoose(scores, state)
                 bestIndices = [index for index in range(len(scores)) if scores[index] == bestScore]
                 chosenIndex = random.choice(bestIndices)
@@ -147,6 +147,8 @@ class agent():
         nextmv = tree(0,0,gameState)
         return nextmv
     def scorechoose(self,score,state):
+        return max(score)
+        """
         t = True
         rescore = min(score)
         for x in score:
@@ -156,4 +158,4 @@ class agent():
         if t:
             return max(score)
         else:
-            return rescore
+            return rescore"""

@@ -9,12 +9,14 @@ from player import *
 from bomb import *
 from brick import *
 from alarmexception import *
+import math
 
 class Gamestate():
-	def __init__(self,g,posArray=[],enemyPos=[],enemyNum=2,bomPos=[],playerPos=[],brickPos=[],bricknum=10,height=11,width=11,score=0,lives=3):
+	def __init__(self,g,posArray=[],enemyPos=[],enemyNum=2,bomPos=[],playerPos=[],brickPos=[],bricknum=10,height=11,width=11,score=0,lives=3,MovePattern=0):
 		self.posArray = [x[:] for x in posArray]
 		self.enemyPos =  [x[:] for x in enemyPos]
 		self.enemyNum = enemyNum
+		self.MovePattern=MovePattern
 		self.bomPos = [x for x in bomPos]
 		self.playerPos = [x for x in playerPos]
 		self.brickPos = [x[:] for x in brickPos]
@@ -26,13 +28,14 @@ class Gamestate():
 		self.g = g
 		self.alive = True
 	
-	def gameinit(self,height,width,lives=3,bricknum=10,enemyNum=2,score=0):
+	def gameinit(self,height,width,lives=3,bricknum=10,enemyNum=2,score=0,MovePattern=0):
 		self.score=score
 		self.height=height
 		self.width=width
 		self.lives = lives
 		self.bricknum = bricknum
 		self.enemyNum = enemyNum
+		self.MovePattern = MovePattern
 		self.posArray = [[0 for x in range(self.width+1)] for y in range(self.height+1)]
 		self.brickPos = []
 		self.enemyPos = []
@@ -64,7 +67,7 @@ class Gamestate():
 		self.g.en.drawposEnemy(self)
 	def getnextstep(self,agents,actions,selfmove=0):
 		if selfmove==0:
-			state = Gamestate( self.g ,self.posArray, self.enemyPos, self.enemyNum, self.bomPos, self.playerPos, self.brickPos, self.bricknum, self.height, self.width, self.score, self.lives)
+			state = Gamestate( self.g ,self.posArray, self.enemyPos, self.enemyNum, self.bomPos, self.playerPos, self.brickPos, self.bricknum, self.height, self.width, self.score, self.lives, self.MovePattern)
 			if(agents==0): #move player
 				if(actions == 's'):
 					state.playerPos[0]+=1	#moves the player down on pressing 's'
@@ -80,6 +83,9 @@ class Gamestate():
 						state.bomPos[1] = state.playerPos[1]
 						state.bomPos[2] = self.g.posbo.timer
 			elif(agents>0): # move enemy
+				#print("move")
+				#print(agents)
+				#print(self.enemyNum)
 				if(actions == 's'):
 					state.enemyPos[agents-1][0]+=1	
 				elif(actions == 'w'):
@@ -89,7 +95,7 @@ class Gamestate():
 				elif(actions == 'd'):
 					state.enemyPos[agents-1][1]+=1
 				if(agents==self.enemyNum):
-					self.updatestate()
+					state.updatestate()
 			return state
 		else:
 			if(agents==0):
@@ -106,7 +112,7 @@ class Gamestate():
 						self.bomPos[0] = self.playerPos[0]
 						self.bomPos[1] = self.playerPos[1]
 						self.bomPos[2] = self.g.posbo.timer
-				self.enemyRamdomMove()
+				self.enemyMove(self.MovePattern)
 				self.updatestate()
 			elif(agents>0):
 				if(actions == 's'):
@@ -160,13 +166,39 @@ class Gamestate():
 				li.append('d')
 			if(self.posArray[self.enemyPos[agents][0]+1][self.enemyPos[agents][1]]!="X" and self.posArray[self.enemyPos[agents][0]+1][self.enemyPos[agents][1]]!="/" and [self.enemyPos[agents][0],self.enemyPos[agents][1]-1] not in self.enemyPos):
 				li.append('a')
-			
+			#print("legalmove:")
+			#print(agents)
 			#self.li[agents].append(li)
 			return li
+	def enemyMove(self,pattern=0):
+		if pattern==1:
+			self.enemySmartMove()
+		else:
+			self.enemyRamdomMove()
 	def enemyRamdomMove(self):
 		for i in range(self.enemyNum):
 			li = self.getLegalActions(i+1)
 			action = random.choice(li)
+			self.getnextstep(i+1, action,1)
+	def enemySmartMove(self):
+		for i in range(self.enemyNum):
+			li = self.getLegalActions(i+1)
+			action='x'
+			dis = 10000
+			for ac in li:
+				if(ac == 's'):
+					ndis = min(pow(self.enemyPos[i][0]+1-self.playerPos[0],2)+pow(self.enemyPos[i][1]-self.playerPos[1],2),dis)
+				elif(ac == 'w'):
+					ndis = min(pow(self.enemyPos[i][0]-1-self.playerPos[0],2)+pow(self.enemyPos[i][1]-self.playerPos[1],2),dis)
+				elif(ac == 'a'):
+					ndis = min(pow(self.enemyPos[i][0]+1-self.playerPos[0],2)+pow(self.enemyPos[i][1]-1-self.playerPos[1],2),dis)
+				elif(ac == 'd'):
+					ndis = min(pow(self.enemyPos[i][0]+1-self.playerPos[0],2)+pow(self.enemyPos[i][1]+1-self.playerPos[1],2),dis)
+				else:
+					ndis = min(pow(self.enemyPos[i][0]+1-self.playerPos[0],2)+pow(self.enemyPos[i][1]-self.playerPos[1],2),dis)
+				if(ndis!=dis):
+					dis = ndis
+					action=ac
 			self.getnextstep(i+1, action,1)
 	def getenemyNum(self):
 		return self.enemyNum

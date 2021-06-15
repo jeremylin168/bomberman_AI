@@ -3,6 +3,7 @@ import signal,copy,sys,time,select
 from random import randint
 import random
 import os
+import sys
 from gameplay import *
 from getchunix import *
 from person import *
@@ -27,10 +28,18 @@ enemyNum = 1
 bricknum = 10
 score = 0
 lives = 3
-explosion_power=1
+explosion_power=2
+mxlevel =1
+expect_depth = 4
+Smartenemy=1
 
-timer = 2
-ai = False
+timer = 3
+if	len(sys.argv)==1:
+	ai= False
+elif sys.argv[1] == "1":
+	ai = True
+else:
+	ai = False
 
 
 bo = Board(height,width)
@@ -40,11 +49,11 @@ en = Enemy(height, width,enemyNum,pl)
 bom = Bomb(height,width,pl,en)
 posbo = posBomb(height, width,explosion_power,timer)
 g=Gameplay(height,width,bo,br,pl,en,bom,posbo)
-AI_agent = agent(3)
+AI_agent = agent(expect_depth)
 
 
 uu = Gamestate(g)
-uu.gameinit(height, width,lives,bricknum,enemyNum)
+uu.gameinit(height, width,lives,bricknum,enemyNum,MovePattern=Smartenemy)
 
 level = 1
 loop = 0
@@ -57,20 +66,21 @@ while(1):
 		print("Score:",uu.score)
 		sys.exit(1)
 		
-	if(uu.enemyNum == 0 and level <= 3):
+	if(uu.enemyNum == 0 and level <= mxlevel):
 		level+=1
-		if(level>3):
+		if(level>mxlevel):
 			print("You WIN")
 			print("Score:",uu.score)
 			sys.exit(1)
-		uu.gameinit(uu.height+2, uu.width+2,lives,bricknum+(level-1)*5,enemyNum+(level-1)*2,uu.score)
+		uu.gameinit(uu.height+2, uu.width+2,lives,bricknum+(level-1)*5,enemyNum+(level-1)*2,uu.score,MovePattern=Smartenemy)
 	print("Level      :",level)
 
 	
 
 	g.drawRawboard(uu)
 	if ai:
-		inp = AI_agent.expectMax(uu)
+		print("ai")
+		inp = AI_agent.getAction(uu)
 		#inp = AI_agent.getAction(uu)
 		uu.getnextstep(0, inp,1)
 		time.sleep(1)
