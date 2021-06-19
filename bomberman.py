@@ -53,7 +53,11 @@ elif sys.argv[1] == "1":
 else:
 	ai = False
 
-fp = open("./record.txt",'w')
+try:
+	payload = sys.argv[2]
+expect:
+	payload = ""
+fp = open("./record_"+payload+".txt",'w')
 fp.write("width: %d, height: %d, enemyNum: %d, bricknum: %d, mxlevel: %d, explosion power: %d, timer: %d, expect depth: %d, Smart enemy: %d\n" % (width,height,enemyNum,bricknum,mxlevel,explosion_power,timer,expect_depth,Smartenemy)	)
 
 bo = Board(height,width)
