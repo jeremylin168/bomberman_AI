@@ -1,0 +1,36 @@
+width: 9, height: 9, enemyNum: 1, bricknum: 10, mxlevel: 1, explosion power: 2, timer: 3, expect depth: 4, Smart enemy: 0
+
+case: 1
+loop: 22
+You WIN
+Score: 280
+
+case: 2
+loop: 151
+Wait too long
+Score: 180
+
+case: 3
+loop: 72
+You WIN
+Score: 340
+
+case: 4
+loop: 122
+You WIN
+Score: 380
+
+case: 5
+loop: 151
+Wait too long
+Score: 120
+
+case: 6
+loop: 9
+Game Over
+Score: -180
+
+case: 7
+loop: 53
+You WIN
+Score: 260

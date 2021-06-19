@@ -107,7 +107,7 @@ while(1):
 			fp.write("Game Over\n")
 			fp.write("Score: "+str(uu.score)+"\n")
 			die = True		
-		elif(loop >150):
+		elif(loop >100):
 			fp.write("\ncase: "+str(case)+"\n")
 			fp.write("loop: "+str(loop)+'\n')
 			fp.write("Wait too long\n")
@@ -141,9 +141,9 @@ while(1):
 		print("AI")
 		state = Gamestate( uu.g ,uu.posArray, uu.enemyPos, uu.enemyNum, uu.bomPos, uu.playerPos, uu.brickPos, uu.bricknum, uu.height, uu.width, uu.score, uu.lives, uu.MovePattern,uu.bombscore,uu.enemyscore)
 		#different AI agent
-		inp = AI_agent.expectMax(uu) 
+		#inp = AI_agent.expectMax(uu) 
 		#inp = AI_agent.getAction(uu)
-		#inp = AI_agent.alpabetaAgent(uu)
+		inp = AI_agent.alpabetaAgent(uu)
 		del state
 		#input("") #if needed, this can plause program
 		uu.getnextstep(0, inp,1)
