@@ -29,7 +29,7 @@ enemyNum = 1
 bricknum = 10
 #score broad
 score = 0
-lives = 1
+lives = 2
 mxlevel =1
 #bomb setting
 explosion_power=2
@@ -58,7 +58,7 @@ try:
 except:
 	payload = ""
 
-fp = open("./record_"+payload+".txt",'w')
+fp = open("./data/record_"+payload+".txt",'w')
 fp.write("width: %d, height: %d, enemyNum: %d, bricknum: %d, mxlevel: %d, explosion power: %d, timer: %d, expect depth: %d, Smart enemy: %d\n" % (width,height,enemyNum,bricknum,mxlevel,explosion_power,timer,expect_depth,Smartenemy)	)
 
 bo = Board(height,width)
