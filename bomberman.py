@@ -44,7 +44,7 @@ Smartenemy=0 #smart enemy will gradually come close to player . smart =1 ,random
 #or expect_depth=4 explosion_power=2 timer = 3
 
 record_mod = 0
-testcase = 20
+testcase = 100
 
 if	len(sys.argv)==1:
 	ai= False
@@ -55,8 +55,9 @@ else:
 
 try:
 	payload = sys.argv[2]
-expect:
+except:
 	payload = ""
+
 fp = open("./record_"+payload+".txt",'w')
 fp.write("width: %d, height: %d, enemyNum: %d, bricknum: %d, mxlevel: %d, explosion power: %d, timer: %d, expect depth: %d, Smart enemy: %d\n" % (width,height,enemyNum,bricknum,mxlevel,explosion_power,timer,expect_depth,Smartenemy)	)
 
