@@ -121,8 +121,6 @@ class agent():
                 nagent=agent+1
                 ndepth = depth
             if(state.isLose()):
-                #print(self.evaluationFunction(state))
-                #time.sleep(1)
                 return self.evaluationFunction(state)
             if(state.isWin()):
                 return self.evaluationFunction(state)

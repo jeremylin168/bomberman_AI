@@ -33,10 +33,10 @@ lives = 2
 mxlevel =1
 #bomb setting
 explosion_power=2
-timer = 3
+timer = 2
 
 #AI setting
-expect_depth = 4
+expect_depth = 3
 Smartenemy=0 #smart enemy will gradually come close to player . smart =1 ,random =0
 
 #better expect_depth=3 explosion_power=1 timer = 2 
@@ -48,10 +48,12 @@ testcase = 100
 
 if	len(sys.argv)==1:
 	ai= False
+	record_mod=1
 elif sys.argv[1] == "1":
 	ai = True
 else:
 	ai = False
+	record_mod=1
 
 try:
 	payload = sys.argv[2]
@@ -87,13 +89,15 @@ while(1):
 	if(uu.lives<=0):
 		print("Game Over")
 		print("Score: ",uu.score)
-		#sys.exit(1)
+		if record_mod !=0:
+			sys.exit(1)
 	elif(uu.enemyNum == 0 and level <= mxlevel):
 		level+=1
 		if(level>mxlevel):
 			print("You WIN")
 			print("Score: ",uu.score)
-			#sys.exit(1)
+			if record_mod !=0:
+				sys.exit(1)
 		if record_mod !=0:
 			uu.gameinit(uu.height+2, uu.width+2,lives,bricknum+(level-1)*5,enemyNum+(level-1)*2,uu.score,MovePattern=Smartenemy)
 	else:
@@ -141,9 +145,9 @@ while(1):
 		print("AI")
 		state = Gamestate( uu.g ,uu.posArray, uu.enemyPos, uu.enemyNum, uu.bomPos, uu.playerPos, uu.brickPos, uu.bricknum, uu.height, uu.width, uu.score, uu.lives, uu.MovePattern,uu.bombscore,uu.enemyscore)
 		#different AI agent
-		#inp = AI_agent.expectMax(uu) 
+		inp = AI_agent.expectMax(uu) 
 		#inp = AI_agent.getAction(uu)
-		inp = AI_agent.alpabetaAgent(uu)
+		#inp = AI_agent.alpabetaAgent(uu)
 		del state
 		#input("") #if needed, this can plause program
 		uu.getnextstep(0, inp,1)
