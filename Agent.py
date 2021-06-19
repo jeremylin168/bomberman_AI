@@ -1,5 +1,6 @@
 from gamestate import Gamestate
 import random
+import time
 
 class agent():
     def __init__(self,depth=2):
@@ -27,7 +28,9 @@ class agent():
 
             scores=[]
             for mv in legalmove:
-                mvscore=tree(ndepth,nagent,state.getnextstep(agent,mv))
+                u = state.getnextstep(agent,mv)
+                mvscore=tree(ndepth,nagent,u)
+                del u
                 if mvscore!=None:
                     scores.append(mvscore)
             if len(scores)<=0:
@@ -72,7 +75,9 @@ class agent():
             bestmv=[]
             bs=[]
             for mv in legalmove:
-                mvscore= tree(ndepth,nagent,state.getnextstep(agent,mv),alpha,beta)
+                u = state.getnextstep(agent,mv)
+                mvscore= tree(ndepth,nagent,u,alpha,beta)
+                del u
                 if mvscore!=None:
                     if(agent==0):
                         if(depth==0):
@@ -116,6 +121,8 @@ class agent():
                 nagent=agent+1
                 ndepth = depth
             if(state.isLose()):
+                #print(self.evaluationFunction(state))
+                #time.sleep(1)
                 return self.evaluationFunction(state)
             if(state.isWin()):
                 return self.evaluationFunction(state)
@@ -124,7 +131,9 @@ class agent():
             legalmove=state.getLegalActions(agent)
             scores=[]
             for mv in legalmove:
-                mvscore=tree(ndepth,nagent,state.getnextstep(agent,mv))
+                u = state.getnextstep(agent,mv)
+                mvscore=tree(ndepth,nagent,u)
+                del u
                 if mvscore!=None:
                     scores.append(mvscore)
             if len(scores)<=0:

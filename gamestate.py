@@ -220,10 +220,7 @@ class Gamestate():
 			return False
 	def getscore(self):
 		self.updatescore()
-		if self.isLose():
-			return None
-		else:
-			return self.score
+		return self.score
 	def updatescore(self):
 		self.score = self.bombscore + self.enemyscore
 			

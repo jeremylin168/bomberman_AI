@@ -1,0 +1,11 @@
+width: 9, height: 9, enemyNum: 1, bricknum: 10, mxlevel: 1, explosion power: 2, timer: 3, expect depth: 4, Smart enemy: 0
+
+case: 1
+loop: 19
+You WIN
+Score: 220
+
+case: 2
+loop: 87
+You WIN
+Score: 320
