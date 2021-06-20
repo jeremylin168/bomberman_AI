@@ -39,29 +39,49 @@ timer = 2
 expect_depth = 3
 Smartenemy=0 #smart enemy will gradually come close to player . smart =1 ,random =0
 
+
 #better expect_depth=3 explosion_power=1 timer = 2 
 #or expect_depth=3 explosion_power=2 timer = 2
 #or expect_depth=4 explosion_power=2 timer = 3
 
-record_mod = 0
+record_mod = 1
 testcase = 100
+payload = 'NONE'
+ag = 0
+ai = False
+for i in sys.argv:
+	#print(i)
+	if i[0:2]=="ai":
+		if i[3]=='1':
+			ai = True
+	elif i[0:4] == "cond":
+		if i[5] == '1':
+			expect_depth=3
+			explosion_power=1 
+			timer = 2 
+		elif i[5] == '2':
+			expect_depth=3
+			explosion_power=2
+			timer = 2
+		elif i[5] == '3':
+			expect_depth=4
+			explosion_power=2
+			timer = 3
+	elif i[0:6]=="record":
+		record_mod=0
+		payload = i[7:]
+	elif i[0:5] == "agent":
+		if i[6:9]=="exp":
+			ag = 1
+		elif i[6:11]=="alpha":
+			ag = 2
 
-if	len(sys.argv)==1:
-	ai= False
-	record_mod=1
-elif sys.argv[1] == "1":
-	ai = True
-else:
-	ai = False
-	record_mod=1
+print("setting: ai: %d, depth: %d, explosion power: %d, timer: %d, record mod: %d, payload: %s, agent: %d" % (ai , expect_depth, explosion_power, timer, record_mod, payload, ag))
+input("")
 
-try:
-	payload = sys.argv[2]
-except:
-	payload = ""
-
-fp = open("./data/record_"+payload+".txt",'w')
-fp.write("width: %d, height: %d, enemyNum: %d, bricknum: %d, mxlevel: %d, explosion power: %d, timer: %d, expect depth: %d, Smart enemy: %d\n" % (width,height,enemyNum,bricknum,mxlevel,explosion_power,timer,expect_depth,Smartenemy)	)
+if record_mod == 0:
+	fp = open("./data/record_"+payload+".txt",'w')
+	fp.write("width: %d, height: %d, enemyNum: %d, bricknum: %d, mxlevel: %d, explosion power: %d, timer: %d, expect depth: %d, Smart enemy: %d\n" % (width,height,enemyNum,bricknum,mxlevel,explosion_power,timer,expect_depth,Smartenemy)	)
 
 bo = Board(height,width)
 br= Brick(height,width)
@@ -145,13 +165,16 @@ while(1):
 		print("AI")
 		state = Gamestate( uu.g ,uu.posArray, uu.enemyPos, uu.enemyNum, uu.bomPos, uu.playerPos, uu.brickPos, uu.bricknum, uu.height, uu.width, uu.score, uu.lives, uu.MovePattern,uu.bombscore,uu.enemyscore)
 		#different AI agent
-		inp = AI_agent.expectMax(uu) 
-		#inp = AI_agent.getAction(uu)
-		#inp = AI_agent.alpabetaAgent(uu)
+		if ag == 1:
+			inp = AI_agent.expectMax(uu) 
+		elif ag ==2:
+			inp = AI_agent.alpabetaAgent(uu)
+		else:
+			inp = AI_agent.getAction(uu)
 		del state
 		#input("") #if needed, this can plause program
 		uu.getnextstep(0, inp,1)
-		#time.sleep(1)
+		time.sleep(1)
 	else:
 		inp = input_char()
 		if(inp == 'q'):
